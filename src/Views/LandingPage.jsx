@@ -12,6 +12,7 @@ import ArtEle from "../Components/ArtEle"
 import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Link } from "react-router-dom";
 
 import Button from '@mui/material/Button';
 
@@ -24,6 +25,7 @@ const mainTheme = createTheme({
 });
 
 export default function LandingPage() {
+    const [name, setName] = React.useState("");
     return (
         <>
             <Grid
@@ -58,14 +60,16 @@ export default function LandingPage() {
                                 color: "#2B2B2B",
                                 border: "0.8px solid #2B2B2B"
                             }}
-                            id="outlined-basic" label="Enter Name" />
-                        <Button style={{
+                            id="outlined-basic" label="Enter Name"  onChange={(e)=>{
+                                name = e.target.value
+                            }} />
+                        <Button component={Link} style={{
                             marginLeft: 12,
                             height: "50px",
                             marginTop: 40,
                             width: 300,
                             borderRadius: "15px",
-                        }} variant="contained">Generate Invoice</Button>
+                        }} to="/generate" variant="contained">Generate Invoice</Button>
                     </ThemeProvider>
                 </Grid>
                 <Grid item xs={4}>

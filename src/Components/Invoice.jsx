@@ -56,6 +56,12 @@ export default function Invoice(){
             <div style={{
                 padding:"3%",
             }}>
+                <div style={{
+                    padding:"0% 2% 4% 2%",
+                }}>
+            <Typography style={{fontWeight:700}} variant="h5">1. Transaction 1</Typography>
+            <Typography style={{padding:"0% 0% 0% 4%",fontWeight:500}} variant="h7">Paid on 05/04/2022</Typography>
+                </div>
             <CartItems></CartItems>
             </div>
         </div>
