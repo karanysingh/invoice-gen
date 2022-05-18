@@ -4,9 +4,11 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container';
 import CardHeader from '@mui/material/CardHeader';
-
+import Collapse from '@mui/material/Collapse';
+import PurchasesCard from "../Components/PurchasesCard";
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
+import ArtEle from "../Components/ArtEle"
 import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -34,17 +36,13 @@ export default function LandingPage() {
                     boxShadow: "0px 3.57967px 37.5866px rgba(189, 189, 189, 0.25)",
                 }}
             >
-                <Grid style={{
-                    height: 100,
-                    backgroundColor: "red",
-                    width: "100%"
-                }}>
-
-                </Grid>
+                
                 <Grid item xs={6}>
                     <ThemeProvider theme={mainTheme}>
-                        <Typography style={{
-                            fontSize: "55px",
+               
+                    <img src={"./logo.png"} style={{marginTop:50,paddingBottom:50}} />
+
+                        <Typography variant="h2" style={{
                             fontWeight: 700,
                             color: "#7161C5",
                         }}>
@@ -71,13 +69,7 @@ export default function LandingPage() {
                     </ThemeProvider>
                 </Grid>
                 <Grid item xs={4}>
-                    <img
-                        src={`./Rectangle.png`}
-                        alt={"invoice-gen-icon"}
-                        loading="lazy"
-                        height="200px"
-                        widht="200px"
-                    />
+                    <ArtEle />
                 </Grid>
             </Grid>
 
@@ -85,36 +77,20 @@ export default function LandingPage() {
                 container
                 justifyContent="center"
                 alignItems="center"
-                style={{
-                    // padding: "0% 2% 5% 0%",
-                }}
             >
-            <Grid item xs={6}>
-                <Typography
-                style={{
-                    fontWeight:700,
-                    marginTop:65,
-                    fontSize:"24px",
+            <Grid item xs={6} style={{
                 }}>
+                <Typography 
+                style={{
+                    marginTop: 60,
+                    paddingBottom:30,
+                    fontWeight:500,
+                }}
+                variant="h4">
                     Saved Invoices
                 </Typography>
-                <Card
-                style={{
-                    width:"100%",
-                    height:"20px",
-                    borderRadius:"15px",
-                    border:"1px solid #2A2A2A",
-                    minHeight:100,
-                    // backgroundColor:"red"
-                }}
-                >
-                    <CardHeader>
-                        Invoice1
-                    </CardHeader>
-
-                </Card>
+               <PurchasesCard></PurchasesCard>
             </Grid>
-            
             <Grid item xs={4}>
                 </Grid>
             </Grid>
