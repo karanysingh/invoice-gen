@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material"
+import * as React from 'react'
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +8,46 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Theme, useTheme } from '@mui/material/styles';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+function getStyles(name: string, personName: string[], theme: Theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
+
+const items = [
+    {
+    "id": 1,
+    "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+    "price": 109.95,
+    "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+    "category": "men's clothing",
+    "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+    "rating": {
+      "rate": 3.9,
+      "count": 120
+    }
+  }
+];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
     //   backgroundColor: "#7161C5",
@@ -48,6 +88,29 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   ];
   
 export default function Invoice() {
+    const theme = useTheme();
+
+    const [selectedItem, setSelectedItem] = React.useState([]);
+    const [data,setData] = React.useState(items)
+    React.useEffect(()=>{
+        fetch(
+            "https://fakestoreapi.com/products/")
+                        .then((res) => res.json())
+                        .then((json) => {
+                            // console.log(json)
+                            setData(json)
+                        })
+    },[])
+
+    const handleChange = (event) => {
+        const {
+          target: { value },
+        } = event;
+        
+        setSelectedItem(
+          typeof value === 'string' ? value.split(',') : value,
+        );
+      };
     return (
         <div style={{
             height: 800,
@@ -127,6 +190,31 @@ export default function Invoice() {
               <StyledTableCell align="right">Qty</StyledTableCell>
               <StyledTableCell align="right">Line total</StyledTableCell>
             </TableRow>
+            <TableBody>
+            <div>
+      <FormControl sx={{ m: 1, width: 300 }}>
+        <InputLabel id="demo-multiple-name-label">Name</InputLabel>
+        <Select
+          labelId="demo-multiple-name-label"
+          id="demo-multiple-name"
+          value={selectedItem}
+          onChange={handleChange}
+          input={<OutlinedInput label="Name" />}
+          MenuProps={MenuProps}
+        >
+          {data.map((name) => (
+            <MenuItem
+              key={name.id}
+              value={name.price}
+            //   style={getStyles(name.id, name.title, theme)}
+            >
+              {name.title}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </div>
+            </TableBody>
           </TableHead>
         </Table>
       </TableContainer>

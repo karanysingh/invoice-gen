@@ -27,22 +27,22 @@ function createData(
     rate: number,
     qty: number,
     total: number,
-  ) {
+) {
     return { desc, rate, qty, total };
-  }
-  
-  const rows = [
+}
+
+const rows = [
     createData('Frozen yoghurt', 2159, 6, 4000),
-    createData('Ice cream sandwich', 2237, 9,  4100),
-    createData('Eclair', 2620, 16,  6000),
-    createData('Cupcake', 1305, 3,  4300),
+    createData('Ice cream sandwich', 2237, 9, 4100),
+    createData('Eclair', 2620, 16, 6000),
+    createData('Cupcake', 1305, 3, 4300),
     createData('Gingerbread', 2356, 16, 3900),
-  ];
+];
 export default function GenerateInvoice() {
     const [value, setValue] = React.useState(2);
     const [invoiceName, setInvoiceName] = React.useState("Invoice1")
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
@@ -72,13 +72,15 @@ export default function GenerateInvoice() {
                     Invoice Generator
                 </Typography>
             </Grid>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', flex: 1, justifyContent: 'space-between', alignContent: "center" ,
-            flexDirection:"row", width:"100%"}}>
+            <Box sx={{
+                borderBottom: 1, borderColor: 'divider', display: 'flex', flex: 1, justifyContent: 'space-between', alignContent: "center",
+                flexDirection: "row", width: "100%"
+            }}>
 
-                <div sx={{ display: 'flex',}}>
-                    <Typography sx={{ alignSelf: "center",  paddingLeft:20 }} variant="h4">
+                <div sx={{ display: 'flex', }}>
+                    <Typography sx={{ alignSelf: "center", paddingLeft: 20 }} variant="h4">
                         {invoiceName}
-                    <EditIcon /></Typography>
+                        <EditIcon /></Typography>
                 </div>
                 <div sx={{ display: 'flex', flex: '1' }}>
                     <Tabs value={value} onChange={handleChange} >
@@ -88,21 +90,21 @@ export default function GenerateInvoice() {
 
                     </Tabs>
                 </div>
-                <div sx={{ paddingRight:20 }}>
+                <div sx={{ paddingRight: 20 }}>
                     <CustomButton>Export as PDF</CustomButton>
                     <CustomButton>Save Invoice</CustomButton>
                 </div>
             </Box>
             <Box>
-            <div>
-                {
-                    (value==1) && (<MakeInvoice></MakeInvoice>)
-                }
-                
-                {
-                    (value==0) && (<Invoice data={rows} />)
-                }
-            </div>
+                <div>
+                    {
+                        (value == 1) && (<MakeInvoice></MakeInvoice>)
+                    }
+
+                    {
+                        (value == 0) && (<Invoice data={rows} />)
+                    }
+                </div>
             </Box>
         </Grid>
     );
