@@ -21,7 +21,7 @@ const mainTheme = createTheme({
 
 export default function LandingPage() {
     const [name, setName] = React.useState("");
-    var contextdata = React.useContext(InvoiceContext)
+    var contextdata = React.useContext(InvoiceContext);
     const changeInvoiceName = contextdata[4]
     const newname = contextdata[2]
     return (

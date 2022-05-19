@@ -48,7 +48,7 @@ export default function GenerateInvoice() {
     const HandleSaveInvoice = () => {
         console.log(JSON.stringify({ ...invoices, name: invoiceName, subtotal: 100 }))
         window.localStorage.removeItem('invhistory');
-        window.localStorage.setItem("invhistory", JSON.stringify({ ...invoices, name: invoiceName, subtotal: 100 }));
+        window.localStorage.setItem("invhistory", JSON.stringify({ ...invoices, name: invoiceName, subtotal: contextdata[5][1] }));
     }
     
     const exportPDF = () => {

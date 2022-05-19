@@ -56,12 +56,37 @@ export default function Invoice(props){
             </div>
             <div style={{
                 padding:"3%",
+                display:"flex",
+                flexDirection:"column",
+            }}>
+            <div style={{
+                padding:"3%",
+                display:"flex"
             }}>
                 <div style={{
-                    padding:"0% 2% 4% 2%",
+                    // padding:"0% 2% 4% 2%",
+                    width:"50%",
+                    alignItems:"flex-start",
+                    justifyContent:"center",
+                    flexDirection:"column",
+                    // backgroundColor:"red"
                 }}>
             <Typography style={{fontWeight:700}} variant="h5">1. Transaction 1</Typography>
             <Typography style={{padding:"0% 0% 0% 4%",fontWeight:500}} variant="h7">Paid on 05/04/2022</Typography>
+                </div>
+                
+                <div style={{
+                    display:"flex",
+                    width:"50%",
+                    alignItems:"flex-end",
+                    justifyContent:"center",
+                    flexDirection:"column",
+                    // backgroundColor:"blue"
+                }}>
+                    
+                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 700 }} variant="h6">Amount Paid</Typography>
+                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 900, color:"#7161C5"}} variant="h5">{props.sum}</Typography>
+                </div>
                 </div>
             <CartItems data={props.data}></CartItems>
             </div>

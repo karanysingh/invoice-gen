@@ -107,6 +107,8 @@ export default function Invoice() {
 
     var contextdata = React.useContext(InvoiceContext)
     const invoiceshandler = contextdata[1]
+    const oldOrdersum = contextdata[5][0]
+    const setOrderSum = contextdata[6]
 
     React.useEffect(() => {
         fetch(
@@ -138,6 +140,8 @@ export default function Invoice() {
             total: Math.round(selectedIdx.price * quant,4)
         }
         ]
+        
+        setOrderSum([oldOrdersum,contextdata[5][1]+Math.round(selectedIdx.price * quant,4)])
         setInvoice(tempInvoice)
         console.log(invoice)
         invoiceshandler(tempInvoice)
@@ -197,13 +201,38 @@ export default function Invoice() {
 
             </div>
             <div style={{
-                padding: "3%",
+                padding:"3%",
+                display:"flex",
+                flexDirection:"column",
+            }}>
+            <div style={{
+                padding:"3%",
+                display:"flex"
             }}>
                 <div style={{
-                    padding: "0% 2% 4% 2%",
+                    // padding:"0% 2% 4% 2%",
+                    width:"50%",
+                    alignItems:"flex-start",
+                    justifyContent:"center",
+                    flexDirection:"column",
+                    // backgroundColor:"red"
                 }}>
-                    <Typography style={{ fontWeight: 700 }} variant="h5">1. Transaction 1</Typography>
-                    <Typography style={{ padding: "0% 0% 0% 4%", fontWeight: 500 }} variant="h7">Paid on 05/04/2022</Typography>
+            <Typography style={{fontWeight:700}} variant="h5">1. Transaction 1</Typography>
+            <Typography style={{padding:"0% 0% 0% 4%",fontWeight:500}} variant="h7">Paid on 05/04/2022</Typography>
+                </div>
+                
+                <div style={{
+                    display:"flex",
+                    width:"50%",
+                    alignItems:"flex-end",
+                    justifyContent:"center",
+                    flexDirection:"column",
+                    // backgroundColor:"blue"
+                }}>
+                    
+                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 700 }} variant="h6">Amount Paid</Typography>
+                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 900, color:"#7161C5"}} variant="h5">${contextdata[5][1]}</Typography>
+                </div>
                 </div>
                 <TableContainer component={Paper}>
                     <Table

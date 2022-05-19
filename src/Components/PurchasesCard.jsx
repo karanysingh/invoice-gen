@@ -116,7 +116,7 @@ export default function PurchasesCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
 
-                    <Invoice data={contextdata[2]}></Invoice>
+                    <Invoice data={contextdata[2]} sum={contextdata[5][0]}></Invoice>
 
                 </CardContent>
             </Collapse>
