@@ -1,12 +1,6 @@
 import * as React from 'react';
-// import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import CardHeader from '@mui/material/CardHeader';
-import Collapse from '@mui/material/Collapse';
+import { styled } from '@mui/material/styles';
 import PurchasesCard from "../Components/PurchasesCard";
-import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import ArtEle from "../Components/ArtEle"
 import TextField from '@mui/material/TextField';
@@ -55,16 +49,18 @@ export default function LandingPage() {
                             Invoice Generator
                         </Typography>
                         <TextField
-                            // color=""
                             style={{
                                 height: "50px",
                                 marginTop: 40,
                                 width: 450,
-                                borderRadius: "15px",
-                                color: "#2B2B2B",
-                                border: "0.8px solid #2B2B2B"
+                                "&:hover":{
+                                    color:"black",
+                                },
+                                "&:active":{
+                                    color:"black",
+                                }
                             }}
-                            id="outlined-basic" label="Enter Name" onChange={(e) => {
+                            id="outlined-basic"  value={name} onChange={(e) => {
                                 setName(e.target.value)
                             }} />
                         <Button disableRipple component={Link}
@@ -72,6 +68,7 @@ export default function LandingPage() {
                                 changeInvoiceName([newname[0], name])
                             }
                             } style={{
+                                textTransform:"none",
                                 marginLeft: 12,
                                 height: "50px",
                                 marginTop: 40,

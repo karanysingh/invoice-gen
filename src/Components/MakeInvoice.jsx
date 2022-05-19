@@ -135,7 +135,7 @@ export default function Invoice() {
             title: selectedIdx.title,
             qty: quant,
             rate: selectedIdx.price,
-            total: quant * selectedIdx.price
+            total: Math.round(selectedIdx.price * quant,4)
         }
         ]
         setInvoice(tempInvoice)
@@ -281,7 +281,7 @@ export default function Invoice() {
                                         variant="standard"
                                     />
                                 </StyledTableCell>
-                                <StyledTableCell align="right">${selectedIdx.price * quant}</StyledTableCell>
+                                <StyledTableCell align="right">${Math.round(selectedIdx.price * quant,4)}</StyledTableCell>
 
                                 <StyledTableCell align="right">
                                     <IconButton onClick={handleKeyDown} aria-label="done" size="small" disabled={quant <= 0}>

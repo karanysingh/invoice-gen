@@ -62,7 +62,7 @@ export default function PurchasesCard() {
     return (
         <Card
             style={{
-                marginRight: 90,
+                marginRight: 80,
                 border: "1px solid black",
                 borderRadius: "15px",
             }}>
@@ -78,7 +78,7 @@ export default function PurchasesCard() {
                     flexDirection: "column",
                     justifyContent: "space-between"
                 }}>
-                    <Typography style={{ fontWeight: 700 }} variant="h4">{contextdata[3][0]}</Typography>
+                    <Typography style={{ fontWeight: 700 }} variant="h4">{contextdata[3][0].toString()}</Typography>
                     <Typography style={{ fontWeight: 500 }} variant="h6">05/04/2022</Typography>
                 </div>
                 <Button
@@ -99,6 +99,8 @@ export default function PurchasesCard() {
                         expand={expanded}
                         aria-expanded={expanded}
                         aria-label="show more"
+                        disableRipple
+                        disableTouchRipple
                     >
                         <ExpandMoreIcon />
                     </ExpandMore>
