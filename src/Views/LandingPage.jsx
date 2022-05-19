@@ -63,12 +63,19 @@ export default function LandingPage() {
                             id="outlined-basic" label="Enter Name"  onChange={(e)=>{
                                 name = e.target.value
                             }} />
-                        <Button component={Link} style={{
+                        <Button disableRipple component={Link} style={{
                             marginLeft: 12,
                             height: "50px",
                             marginTop: 40,
                             width: 300,
+                            backgroundColor:"#7161C5",
                             borderRadius: "15px",
+                            '&:hover':{
+                                backgroundColor:"#4F4099 !important"
+                            },
+                            '&:active':{
+                                backgroundColor:"#3B3077 !important"
+                            }
                         }} to="/generate" variant="contained">Generate Invoice</Button>
                     </ThemeProvider>
                 </Grid>

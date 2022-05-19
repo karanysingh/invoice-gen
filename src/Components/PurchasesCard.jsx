@@ -15,6 +15,9 @@ import { red } from '@mui/material/colors';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Invoice from '../Components/Invoice'
+import Button from '@mui/material/Button';
+
+
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
@@ -59,17 +62,28 @@ export default function PurchasesCard() {
                     <Typography style={{ fontWeight: 700 }} variant="h4">Invoice 1</Typography>
                     <Typography style={{ fontWeight: 500 }} variant="h6">05/04/2022</Typography>
                 </div>
-                <div style={{ fontWeight: 700, color:"#7161C5" }}>
+                <Button 
+                    onClick={handleExpandClick}
+                    style={{ 
+                    fontWeight: 700, 
+                    color:"#7161C5" ,
+                    borderRadius:"100px",
+                    textTransform:'none',
+                    padding:10,
+                    '&:hover':{
+                        backgroundColor:"#F2EFFF"
+                    }
+                    }}>
+                    
                     View Invoice
                     <ExpandMore
                         expand={expanded}
-                        onClick={handleExpandClick}
                         aria-expanded={expanded}
                         aria-label="show more"
                     >
                         <ExpandMoreIcon />
                     </ExpandMore>
-                </div>
+                </Button>
             </CardContent>
             <CardActions style={{
                 display: "flex",
