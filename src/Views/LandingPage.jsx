@@ -22,7 +22,8 @@ const mainTheme = createTheme({
 export default function LandingPage() {
     const [name, setName] = React.useState("");
     var contextdata = React.useContext(InvoiceContext);
-    const changeInvoiceName = contextdata[4]
+    const changeInvoice = contextdata[1]
+    const invoice = contextdata[0]
     const newname = contextdata[2]
     return (
         <>
@@ -65,7 +66,7 @@ export default function LandingPage() {
                             }} />
                         <Button disableRipple component={Link}
                             onClick={() => {
-                                changeInvoiceName([newname[0], name])
+                                changeInvoice({...invoice,"name":name})
                             }
                             } style={{
                                 textTransform:"none",

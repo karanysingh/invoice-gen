@@ -78,7 +78,7 @@ export default function PurchasesCard() {
                     flexDirection: "column",
                     justifyContent: "space-between"
                 }}>
-                    <Typography style={{ fontWeight: 700 }} variant="h4">{contextdata[3][0].toString()}</Typography>
+                    <Typography style={{ fontWeight: 700 }} variant="h4">{contextdata[2].name}</Typography>
                     <Typography style={{ fontWeight: 500 }} variant="h6">05/04/2022</Typography>
                 </div>
                 <Button
@@ -95,7 +95,7 @@ export default function PurchasesCard() {
                     }}>
 
                     View Invoice
-                    <ExpandMore
+                    <ExpandMore component={'div'}
                         expand={expanded}
                         aria-expanded={expanded}
                         aria-label="show more"
@@ -116,7 +116,7 @@ export default function PurchasesCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
 
-                    <Invoice data={contextdata[2]} sum={contextdata[5][0]}></Invoice>
+                    <Invoice data={contextdata[2]} ></Invoice>
 
                 </CardContent>
             </Collapse>

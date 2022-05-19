@@ -8,10 +8,8 @@ import { useState, createContext } from "react";
 
 export const InvoiceContext = createContext()
 function App() {
-  const [invoices, setInvoices] = useState([{ title: "null", qty: 0, rate: 0, total: 0 }]);
-  const [history, sethistory] = useState([{ title: "null", qty: 0, rate: 0, total: 0 }]);
-  const [names, setNames] = useState(["No Invoice Found", "new"])
-  const [orderSum, setOrderSum] = useState([0,0]);
+  const [invoices, setInvoices] = useState({0:{ title: "null", qty: 0, rate: 0, total: 0 },name:"defaultname",total:999});
+  const [history, sethistory] = useState({0:{ title: "null", qty: 0, rate: 0, total: 0 },name:"defaultname",total:999});
   // const []
   React.useEffect(() => {
     if(window.localStorage.getItem("invhistory")){
@@ -19,19 +17,17 @@ function App() {
       var temp = JSON.parse(window.localStorage.getItem("invhistory"));
       const oldname = temp.name
       const total = temp.subtotal
-      delete temp.name
-      delete temp.subtotal
+      // delete temp.name
+      // delete temp.subtotal
       for (var i in temp) {
         arr.push(temp[i])
       }
-      setOrderSum(total)
-      setNames([oldname, "new"])
-      sethistory(arr)
-      // console.log(arr)
+      sethistory(temp)
+      console.log(arr)
     }
   }, [])
   return (
-    <InvoiceContext.Provider value={[invoices, setInvoices, history, names, setNames, orderSum, setOrderSum]}>
+    <InvoiceContext.Provider value={[invoices, setInvoices, history]}>
       <BrowserRouter>
 
         <Routes>

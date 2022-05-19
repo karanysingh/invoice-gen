@@ -34,21 +34,24 @@ function CreateData(
 ) {
     return { title, rate, qty, total };
 }
-export default function GenerateInvoice() {
+export default function GenerateInvoice(props) {
     const [value, setValue] = React.useState(1);
     var contextdata = React.useContext(InvoiceContext)
     const invoices = contextdata[0]
-    const oldinvoices = contextdata[2]
-    const invoiceName = contextdata[3][1]
-
+    const [sum,setsum] = React.useState(0)
+    const [newname,setnewname] = React.useState("unnamed")
+    // const sum
+    React.useEffect(()=>{
+        setnewname(invoices.name)
+    })
     const HandleChange = (event, newValue) => {
         setValue(newValue);
     };
 
     const HandleSaveInvoice = () => {
-        console.log(JSON.stringify({ ...invoices, name: invoiceName, subtotal: 100 }))
+        console.log(JSON.stringify({ ...invoices, name: newname, subtotal: 100 }))
         window.localStorage.removeItem('invhistory');
-        window.localStorage.setItem("invhistory", JSON.stringify({ ...invoices, name: invoiceName, subtotal: contextdata[5][1] }));
+        window.localStorage.setItem("invhistory", JSON.stringify({ ...invoices, name: newname, total: sum }));
     }
     
     const exportPDF = () => {
@@ -61,9 +64,15 @@ export default function GenerateInvoice() {
         const doc = new jsPDF(orientation, unit, size);
     
         doc.setFontSize(15);
-        const title = "Invoice-"+invoiceName;
+        const title = "Invoice-" + newname;
         const headers = [['Product Name','Quantity','Price','Total']];
-        const data = invoices.map((ele)=>[ele.title,ele.qty,ele.rate,ele.total])
+        const temp = []
+        for(let i in invoices){
+            if(typeof invoices[i] === "object" && invoices[i].title!="null"){
+                temp.push(invoices[i])
+            }
+        }
+        const data = temp.map((ele)=>[ele.title,ele.qty,ele.rate,ele.total])
         let content = {
             startY: 50,
             head: headers,
@@ -108,7 +117,7 @@ export default function GenerateInvoice() {
                 <div sx={{ display: 'flex', }}>
                     <Typography sx={{ alignSelf: "center", paddingLeft: 20 }} variant="h4">
                         
-                    {invoiceName}<IconButton component={Link} to="/"><EditIcon /></IconButton>
+                    {newname}<IconButton component={Link} to="/"><EditIcon /></IconButton>
                         
                     </Typography>
                 </div>
@@ -132,7 +141,7 @@ export default function GenerateInvoice() {
             <Box style={{width:"60%"}}>
                 <div>
                     {
-                        (value === 1) && (<MakeInvoice></MakeInvoice>)
+                        (value === 1) && (<MakeInvoice sum={sum} setsum={setsum} name={newname} setname={setnewname}></MakeInvoice>)
                     }
 
                     {

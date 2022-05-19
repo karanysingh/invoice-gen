@@ -76,49 +76,42 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-function createData(
-    desc: string,
-    rate: number,
-    qty: number,
-    total: number,
-) {
-    return { desc, rate, qty, total };
-}
 
-const rows = [
-    createData('Frozen yoghurt', 2159, 6, 4000),
-    createData('Ice cream sandwich', 2237, 9, 4100),
-    createData('Eclair', 2620, 16, 6000),
-    createData('Cupcake', 1305, 3, 4300),
-    createData('Gingerbread', 2356, 16, 3900),
-];
+var tempInvoice = {}
 
-var tempInvoice = []
+var sumtotal = 0
 
-export default function Invoice() {
+export default function MakeInvoice(props) {
     const theme = useTheme();
     const nametoid = {}
     const [selectedItem, setSelectedItem] = React.useState("none");
-    const [data, setData] = React.useState(items);
+    const [data, setData] = React.useState([]);
     const [selectedIdx, setSelectedIdx] = React.useState({ id: 2, price: 0, title: "null" });
     const [quant, setQuant] = React.useState(0)
     const [total, setTotal] = React.useState(0)
-    const [invoice, setInvoice] = React.useState([{ title: "null", qty: 0, rate: 0, total: 0 }])
-
+    // const [invoice, setInvoice] = React.useState([{ title: "null", qty: 0, rate: 0, total: 0 },"karan",123])
+    var sum = props.sum
+    var setsum = props.setsum 
+    var name = props.name
+    var setname = props.newname
     var contextdata = React.useContext(InvoiceContext)
     const invoiceshandler = contextdata[1]
-    const oldOrdersum = contextdata[5][0]
-    const setOrderSum = contextdata[6]
-
+    const [localInvoice, setlocalInvoice] = React.useState([])
     React.useEffect(() => {
+        if(data.length===0){
+            console.log("fetching")
+        // Fetching data from api and populating it
         fetch(
             "https://fakestoreapi.com/products/")
             .then((res) => res.json())
             .then((json) => {
-                // console.log(json)
+                console.log(json)
                 setData(json)
-            })
-    }, [])
+  
+            })}
+            
+
+    }, [contextdata])
 
     const handleChange = (event) => {
         const {
@@ -128,24 +121,40 @@ export default function Invoice() {
         setSelectedItem(
             typeof value === 'string' ? value.split(',') : value,
         );
-        console.log(nametoid[value])
+        // console.log(nametoid[value])
         setSelectedIdx(nametoid[value])
     };
+
+
     const handleKeyDown = (event) => {
-        tempInvoice = [...tempInvoice,
-        {
-            title: selectedIdx.title,
-            qty: quant,
-            rate: selectedIdx.price,
-            total: Math.round(selectedIdx.price * quant,4)
-        }
-        ]
-        
-        setOrderSum([oldOrdersum,contextdata[5][1]+Math.round(selectedIdx.price * quant,4)])
-        setInvoice(tempInvoice)
-        console.log(invoice)
-        invoiceshandler(tempInvoice)
+        sum += Math.round(selectedIdx.price * quant,4)
+            var invoicedata = contextdata[0]
+            console.log(invoicedata)
+            tempInvoice = invoicedata
+            tempInvoice[selectedIdx.id]  = {
+                title: selectedIdx.title,
+                qty: quant,
+                rate: selectedIdx.price,
+                total: Math.round(selectedIdx.price * quant,4)
+            }
+                invoiceshandler(tempInvoice)
+                // setOrderSum([oldOrdersum,contextdata[5][1]+Math.round(selectedIdx.price * quant,4)])
+                setsum(sum)
+                        
+                let temp = []
+                for(let i in contextdata[0]){
+                    console.log(contextdata[0][i])
+                    if(typeof contextdata[0][i] === "object"){
+                    temp.push(contextdata[0][i])
+                    }
+                }
+                console.log(temp)
+                setlocalInvoice(temp)
     }
+
+
+
+
     return (
         <div style={{
             height: 800,
@@ -231,7 +240,7 @@ export default function Invoice() {
                 }}>
                     
                     <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 700 }} variant="h6">Amount Paid</Typography>
-                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 900, color:"#7161C5"}} variant="h5">${contextdata[5][1]}</Typography>
+                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 900, color:"#7161C5"}} variant="h5">${sum}</Typography>
                 </div>
                 </div>
                 <TableContainer component={Paper}>
@@ -253,7 +262,7 @@ export default function Invoice() {
                             </TableRow>
 
                         </TableHead>
-                        <TableBody>{invoice.map((row) => (row.qty != 0 && row.rate != 0) && (
+                        <TableBody>{localInvoice.map((row) => (row.qty != 0 && row.rate != 0) && (
                             <StyledTableRow key={row.title}>
                                 <StyledTableCell component="th" scope="row">
                                     {row.title}

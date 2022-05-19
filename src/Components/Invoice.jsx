@@ -2,6 +2,8 @@ import { Typography } from "@mui/material"
 import CartItems from "./CartItems"
 
 export default function Invoice(props){
+    var sum = props.data.total
+    var name = props.data.name
     return(
         <div style={{
             height:800,
@@ -85,7 +87,7 @@ export default function Invoice(props){
                 }}>
                     
                     <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 700 }} variant="h6">Amount Paid</Typography>
-                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 900, color:"#7161C5"}} variant="h5">{props.sum}</Typography>
+                    <Typography style={{ padding: "0% 4% 0% 4%", fontWeight: 900, color:"#7161C5"}} variant="h5">${sum}</Typography>
                 </div>
                 </div>
             <CartItems data={props.data}></CartItems>
