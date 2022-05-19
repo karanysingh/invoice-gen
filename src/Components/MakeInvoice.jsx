@@ -129,7 +129,10 @@ export default function MakeInvoice(props) {
     const handleKeyDown = (event) => {
         sum += Math.round(selectedIdx.price * quant,4)
             var invoicedata = contextdata[0]
-            console.log(invoicedata)
+            // console.log(invoicedata[0])
+            // if(invoicedata[0] && invoicedata[0].title=="null"){
+            delete invoicedata[0]
+            // }
             tempInvoice = invoicedata
             tempInvoice[selectedIdx.id]  = {
                 title: selectedIdx.title,
@@ -143,7 +146,6 @@ export default function MakeInvoice(props) {
                         
                 let temp = []
                 for(let i in contextdata[0]){
-                    console.log(contextdata[0][i])
                     if(typeof contextdata[0][i] === "object"){
                     temp.push(contextdata[0][i])
                     }

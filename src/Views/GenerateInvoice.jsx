@@ -124,7 +124,7 @@ export default function GenerateInvoice(props) {
                 <div sx={{ display: 'flex', flex: '1'}}>
                     <Tabs value={value} onChange={HandleChange} >
 
-                        <Tab sx={{textTransform:"none"}} icon={<VisibilityIcon />} iconPosition="start" label="Preview" disabled={invoices.length<1} />
+                        <Tab sx={{textTransform:"none"}} icon={<VisibilityIcon />} iconPosition="start" label="Preview" disabled={invoices[0]?.title=='null'} />
                         <Tab sx={{textTransform:"none"}} icon={<EditIcon />} iconPosition="start" label="Edit" />
 
                     </Tabs>

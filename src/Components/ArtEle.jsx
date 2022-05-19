@@ -1,12 +1,14 @@
 export default function ArtEle(){
     return(
         <div
-            style={{
+            sx={12}
+            md={{
                 height: '200px',
-                width:"200px",
-                backgroundImage:'./Rectangle.png',
+                width:"100px",
             }}
         >
+            <img src={"./element.png"} ></img>
+            
 
         </div>
         )
