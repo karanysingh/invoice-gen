@@ -14,6 +14,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import CartItems from "./CartItems"
+import DeleteIcon from '@mui/icons-material/Delete';
+import DoneIcon from '@mui/icons-material/Done';
+import IconButton from '@mui/material/IconButton';
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -36,81 +42,101 @@ function getStyles(name: string, personName: string[], theme: Theme) {
 
 const items = [
     {
-    "id": 1,
-    "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
-    "price": 109.95,
-    "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-    "category": "men's clothing",
-    "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
-    "rating": {
-      "rate": 3.9,
-      "count": 120
+        "id": 1,
+        "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "price": 109.95,
+        "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+        "category": "men's clothing",
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+        "rating": {
+            "rate": 3.9,
+            "count": 120
+        }
     }
-  }
 ];
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-    //   backgroundColor: "#7161C5",
-      color: "#7161C5",
-      fontWeight:900,
+        //   backgroundColor: "#7161C5",
+        color: "#7161C5",
+        fontWeight: 900,
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 14,
-      fontWeight:700,
-      border:"0px",
+        fontSize: 14,
+        fontWeight: 700,
+        border: "0px",
     },
-  }));
-  
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+        backgroundColor: theme.palette.action.hover,
     },
     // hide last border
     '&:last-child td, &:last-child th': {
-      border: 0,
+        border: 0,
     },
-  }));
-  function createData(
+}));
+function createData(
     desc: string,
     rate: number,
     qty: number,
     total: number,
-  ) {
+) {
     return { desc, rate, qty, total };
-  }
-  
-  const rows = [
+}
+
+const rows = [
     createData('Frozen yoghurt', 2159, 6, 4000),
-    createData('Ice cream sandwich', 2237, 9,  4100),
-    createData('Eclair', 2620, 16,  6000),
-    createData('Cupcake', 1305, 3,  4300),
+    createData('Ice cream sandwich', 2237, 9, 4100),
+    createData('Eclair', 2620, 16, 6000),
+    createData('Cupcake', 1305, 3, 4300),
     createData('Gingerbread', 2356, 16, 3900),
-  ];
-  
+];
+
+var tempInvoice = []
+
 export default function Invoice() {
     const theme = useTheme();
-
-    const [selectedItem, setSelectedItem] = React.useState([]);
-    const [data,setData] = React.useState(items)
-    React.useEffect(()=>{
+    const nametoid = {}
+    const [selectedItem, setSelectedItem] = React.useState("none");
+    const [data, setData] = React.useState(items);
+    const [selectedIdx, setSelectedIdx] = React.useState({id:2,price:0,title:"null"});
+    const [quant, setQuant] = React.useState(0)
+    const [total,setTotal] = React.useState(0)
+    const [invoice,setInvoice] = React.useState([{title:"null",qty:0,rate:0,total:0}])
+    React.useEffect(() => {
         fetch(
             "https://fakestoreapi.com/products/")
-                        .then((res) => res.json())
-                        .then((json) => {
-                            // console.log(json)
-                            setData(json)
-                        })
-    },[])
+            .then((res) => res.json())
+            .then((json) => {
+                // console.log(json)
+                setData(json)
+            })
+    }, [])
 
     const handleChange = (event) => {
         const {
-          target: { value },
+            target: { value },
         } = event;
-        
+
         setSelectedItem(
-          typeof value === 'string' ? value.split(',') : value,
+            typeof value === 'string' ? value.split(',') : value,
         );
-      };
+        console.log(nametoid[value])
+        setSelectedIdx(nametoid[value])
+    };
+    const handleKeyDown = (event) => {
+        tempInvoice = [...tempInvoice,
+            {
+            title: selectedIdx.title,
+            qty: quant,
+            rate: selectedIdx.price,
+            total: quant*selectedIdx.price
+            }
+        ]
+            setInvoice(tempInvoice)
+            console.log(invoice)
+    }
     return (
         <div style={{
             height: 800,
@@ -175,49 +201,95 @@ export default function Invoice() {
                     <Typography style={{ padding: "0% 0% 0% 4%", fontWeight: 500 }} variant="h7">Paid on 05/04/2022</Typography>
                 </div>
                 <TableContainer component={Paper}>
-        <Table 
-        style={{
-            border:"1.5px solid #7161C5",
-            borderRadius:"12px",
-            boxShadow:0,
-        }}
-        sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow
-            >
-              <StyledTableCell>Description</StyledTableCell>
-              <StyledTableCell align="right">Rate</StyledTableCell>
-              <StyledTableCell align="right">Qty</StyledTableCell>
-              <StyledTableCell align="right">Line total</StyledTableCell>
-            </TableRow>
-            <TableBody>
-            <div>
-      <FormControl sx={{ m: 1, width: 300 }}>
-        <InputLabel id="demo-multiple-name-label">Name</InputLabel>
-        <Select
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          value={selectedItem}
-          onChange={handleChange}
-          input={<OutlinedInput label="Name" />}
-          MenuProps={MenuProps}
-        >
-          {data.map((name) => (
-            <MenuItem
-              key={name.id}
-              value={name.price}
-            //   style={getStyles(name.id, name.title, theme)}
-            >
-              {name.title}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
-            </TableBody>
-          </TableHead>
-        </Table>
-      </TableContainer>
+                    <Table
+                        style={{
+                            border: "1.5px solid #7161C5",
+                            borderRadius: "12px",
+                            boxShadow: 0,
+                        }}
+                        sx={{ minWidth: 700 }} aria-label="customized table">
+                        <TableHead>
+                            <TableRow
+                            >
+                                <StyledTableCell>Description</StyledTableCell>
+                                <StyledTableCell align="right">Rate</StyledTableCell>
+                                <StyledTableCell align="right">Qty</StyledTableCell>
+                                <StyledTableCell align="right">Line total</StyledTableCell>
+                                <StyledTableCell align="right">Action</StyledTableCell>
+                            </TableRow>
+                        
+                            </TableHead>
+                            <TableBody>{invoice.map((row) => (
+                                <StyledTableRow key={row.title}>
+                                    <StyledTableCell component="th" scope="row">
+                                    {row.title}
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">${row.rate}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.qty}</StyledTableCell>
+                                    <StyledTableCell align="right">${row.total}</StyledTableCell>
+                                    <StyledTableCell align="right"><DeleteIcon></DeleteIcon></StyledTableCell>
+                                </StyledTableRow>
+                                ))}
+                                <StyledTableRow>
+                                <StyledTableCell>
+                                        <Select
+                                            labelId="demo-multiple-name-label"
+                                            id="demo-multiple-name"
+                                            value={selectedItem}
+                                            onChange={handleChange}
+                                            input={<OutlinedInput label="Name" />}
+                                            MenuProps={MenuProps}
+                                        >
+                                            {data.map((name) => {
+                                                nametoid[name.id] = name
+                                                return(
+                                                    <MenuItem
+                                                        key={name.id}
+                                                        value={name.id}
+                                                    >
+                                                        {name.title}
+                                                    </MenuItem>
+                                                )
+                                            }
+
+          )}
+                                                </Select>
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">{selectedIdx.price}</StyledTableCell>
+                                    <StyledTableCell align="right">
+                                    <TextField
+                                        id="standard-number"
+                                        label="Number"
+                                        type="number"
+                                        value = {quant}
+                                        onChange={(e)=>{
+                                            if(e.target.value>=0){
+                                                setQuant(e.target.value)
+                                            }else{
+                                            setQuant(0)
+                                            }
+                                        }}
+                                        InputLabelProps={{
+                                        shrink: true,
+                                        }}
+                                        variant="standard"
+                                    />
+                                    </StyledTableCell>
+                                    <StyledTableCell align="right">${selectedIdx.price*quant}</StyledTableCell>
+                                    
+                                    <StyledTableCell align="right">
+                                    <IconButton onClick={handleKeyDown} aria-label="done" size="small" disabled={quant<=0}>
+                                        <DoneIcon fontSize="inherit" />
+                                    </IconButton>
+                                    {/* <IconButton aria-label="delete" size="small">
+                                        <DeleteIcon fontSize="inherit" />
+                                    </IconButton> */}
+                                    </StyledTableCell>
+                                    </StyledTableRow >
+                        
+                            </TableBody>
+                    </Table>
+                </TableContainer>
 
 
             </div>

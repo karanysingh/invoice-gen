@@ -32,12 +32,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }));
   
   function createData(
-    desc: string,
+    title: string,
     rate: number,
     qty: number,
     total: number,
   ) {
-    return { desc, rate, qty, total };
+    return { title, rate, qty, total };
   }
   
   const rows = [
@@ -69,9 +69,9 @@ export default function CartItems(props){
           </TableHead>
           <TableBody>
             {data.map((row) => (
-              <StyledTableRow key={row.name}>
+              <StyledTableRow key={row.title}>
                 <StyledTableCell component="th" scope="row">
-                  {row.desc}
+                  {row.title}
                 </StyledTableCell>
                 <StyledTableCell align="right">${row.rate}</StyledTableCell>
                 <StyledTableCell align="right">{row.qty}</StyledTableCell>

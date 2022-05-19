@@ -34,12 +34,12 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 function createData(
-    desc: string,
+    title: string,
     rate: number,
     qty: number,
     total: number,
   ) {
-    return { desc, rate, qty, total };
+    return { title, rate, qty, total };
   }
   
   const invoices = [
