@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material"
 import CartItems from "./CartItems"
 
-export default function Invoice(){
+export default function Invoice(props){
     return(
         <div style={{
             height:800,
@@ -63,7 +63,7 @@ export default function Invoice(){
             <Typography style={{fontWeight:700}} variant="h5">1. Transaction 1</Typography>
             <Typography style={{padding:"0% 0% 0% 4%",fontWeight:500}} variant="h7">Paid on 05/04/2022</Typography>
                 </div>
-            <CartItems></CartItems>
+            <CartItems data={props.data}></CartItems>
             </div>
         </div>
     )

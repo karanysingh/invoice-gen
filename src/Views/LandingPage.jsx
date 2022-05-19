@@ -61,7 +61,7 @@ export default function LandingPage() {
                                 border: "0.8px solid #2B2B2B"
                             }}
                             id="outlined-basic" label="Enter Name"  onChange={(e)=>{
-                                name = e.target.value
+                                setName(e.target.value)
                             }} />
                         <Button disableRipple component={Link} style={{
                             marginLeft: 12,

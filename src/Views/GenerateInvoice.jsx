@@ -8,6 +8,7 @@ import Box from '@mui/material/Box';
 import Button, { ButtonProps } from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import MakeInvoice from '../Components/MakeInvoice';
 import Invoice from '../Components/Invoice';
 
 
@@ -20,34 +21,26 @@ const CustomButton = styled(Button)({
     lineHeight: 1.5,
     backgroundColor: '#EDEAFF',
     borderColor: '#0063cc',
-    // fontFamily: [
-    //     '-apple-system',
-    //     'BlinkMacSystemFont',
-    //     '"Segoe UI"',
-    //     'Roboto',
-    //     '"Helvetica Neue"',
-    //     'Arial',
-    //     'sans-serif',
-    //     '"Apple Color Emoji"',
-    //     '"Segoe UI Emoji"',
-    //     '"Segoe UI Symbol"',
-    // ].join(','),
-    // '&:hover': {
-    //     backgroundColor: '#F2EFFF',
-    //     borderColor: '#0062cc',
-    //     boxShadow: 'none',
-    // },
-    // '&:active': {
-    //     boxShadow: 'none',
-    //     backgroundColor: '#0062cc',
-    //     borderColor: '#005cbf',
-    // },
-    // '&:focus': {
-    //     boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-    // },
 });
+function createData(
+    desc: string,
+    rate: number,
+    qty: number,
+    total: number,
+  ) {
+    return { desc, rate, qty, total };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', 2159, 6, 4000),
+    createData('Ice cream sandwich', 2237, 9,  4100),
+    createData('Eclair', 2620, 16,  6000),
+    createData('Cupcake', 1305, 3,  4300),
+    createData('Gingerbread', 2356, 16, 3900),
+  ];
 export default function GenerateInvoice() {
     const [value, setValue] = React.useState(2);
+    const [invoiceName, setInvoiceName] = React.useState("Invoice1")
 
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
@@ -83,12 +76,14 @@ export default function GenerateInvoice() {
             flexDirection:"row", width:"100%"}}>
 
                 <div sx={{ display: 'flex',}}>
-                    <Typography sx={{ alignSelf: "center",  paddingLeft:20 }} variant="h4">Invoice 1 <EditIcon /></Typography>
+                    <Typography sx={{ alignSelf: "center",  paddingLeft:20 }} variant="h4">
+                        {invoiceName}
+                    <EditIcon /></Typography>
                 </div>
                 <div sx={{ display: 'flex', flex: '1' }}>
                     <Tabs value={value} onChange={handleChange} >
 
-                        <Tab icon={<VisibilityIcon />} iconPosition="start" label="Preview" disabled />
+                        <Tab icon={<VisibilityIcon />} iconPosition="start" label="Preview" />
                         <Tab icon={<EditIcon />} iconPosition="start" label="Edit" />
 
                     </Tabs>
@@ -101,7 +96,11 @@ export default function GenerateInvoice() {
             <Box>
             <div>
                 {
-                    (value==1) && (<Invoice></Invoice>)
+                    (value==1) && (<MakeInvoice></MakeInvoice>)
+                }
+                
+                {
+                    (value==0) && (<Invoice data={rows} />)
                 }
             </div>
             </Box>

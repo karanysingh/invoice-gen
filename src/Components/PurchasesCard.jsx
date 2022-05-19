@@ -33,6 +33,22 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
     }),
 }));
 
+function createData(
+    desc: string,
+    rate: number,
+    qty: number,
+    total: number,
+  ) {
+    return { desc, rate, qty, total };
+  }
+  
+  const invoices = [
+    createData('Ice cream sandwich', 2237, 9,  4100),
+    createData('Eclair', 2620, 16,  6000),
+    createData('Cupcake', 1305, 3,  4300),
+    createData('Gingerbread', 2356, 16, 3900),
+  ];
+
 export default function PurchasesCard() {
     const [expanded, setExpanded] = React.useState(false);
 
@@ -95,7 +111,7 @@ export default function PurchasesCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
 
-                    <Invoice></Invoice>
+                    <Invoice data={invoices}></Invoice>
 
                 </CardContent>
             </Collapse>

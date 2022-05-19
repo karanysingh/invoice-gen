@@ -41,14 +41,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   }
   
   const rows = [
-    createData('Frozen yoghurt', 2159, 6, 4000),
-    createData('Ice cream sandwich', 2237, 9,  4100),
-    createData('Eclair', 2620, 16,  6000),
-    createData('Cupcake', 1305, 3,  4300),
-    createData('Gingerbread', 2356, 16, 3900),
+    ['Frozen yoghurt', 2159, 6, 4000]
   ];
   
-export default function CartItems(){
+export default function CartItems(props){
+    const [data, setData] = React.useState(rows)
+    React.useEffect(()=>{
+        setData(props.data)
+    },[])
     return(
         <TableContainer component={Paper}>
         <Table 
@@ -68,7 +68,7 @@ export default function CartItems(){
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {data.map((row) => (
               <StyledTableRow key={row.name}>
                 <StyledTableCell component="th" scope="row">
                   {row.desc}
