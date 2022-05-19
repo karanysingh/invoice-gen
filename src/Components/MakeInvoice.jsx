@@ -86,7 +86,7 @@ export default function MakeInvoice(props) {
     const nametoid = {}
     const [selectedItem, setSelectedItem] = React.useState("none");
     const [data, setData] = React.useState([]);
-    const [selectedIdx, setSelectedIdx] = React.useState({ id: 2, price: 0, title: "null" });
+    const [selectedIdx, setSelectedIdx] = React.useState({ id: 2, price: 0, title: "notselected" });
     const [quant, setQuant] = React.useState(0)
     const [total, setTotal] = React.useState(0)
     // const [invoice, setInvoice] = React.useState([{ title: "null", qty: 0, rate: 0, total: 0 },"karan",123])
@@ -275,6 +275,7 @@ export default function MakeInvoice(props) {
                         ))}
                             <StyledTableRow>
                                 <StyledTableCell>
+                                    {data!==[]&&(
                                     <Select
                                         labelId="demo-multiple-name-label"
                                         id="demo-multiple-name"
@@ -297,7 +298,8 @@ export default function MakeInvoice(props) {
                                         }
 
                                         )}
-                                    </Select>
+                                    </Select>)
+                                    }
                                 </StyledTableCell>
                                 <StyledTableCell align="right">{selectedIdx.price}</StyledTableCell>
                                 <StyledTableCell align="right">
