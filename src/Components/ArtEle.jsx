@@ -1,8 +1,7 @@
 export default function ArtEle(){
     return(
         <div
-            sx={12}
-            md={{
+            style={{
                 height: '200px',
                 width:"100px",
             }}
