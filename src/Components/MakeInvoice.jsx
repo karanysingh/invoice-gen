@@ -19,7 +19,7 @@ import CartItems from "./CartItems"
 import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
-
+import { InvoiceContext } from "../App";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -100,10 +100,14 @@ export default function Invoice() {
     const nametoid = {}
     const [selectedItem, setSelectedItem] = React.useState("none");
     const [data, setData] = React.useState(items);
-    const [selectedIdx, setSelectedIdx] = React.useState({id:2,price:0,title:"null"});
+    const [selectedIdx, setSelectedIdx] = React.useState({ id: 2, price: 0, title: "null" });
     const [quant, setQuant] = React.useState(0)
-    const [total,setTotal] = React.useState(0)
-    const [invoice,setInvoice] = React.useState([{title:"null",qty:0,rate:0,total:0}])
+    const [total, setTotal] = React.useState(0)
+    const [invoice, setInvoice] = React.useState([{ title: "null", qty: 0, rate: 0, total: 0 }])
+
+    var contextdata = React.useContext(InvoiceContext)
+    const invoiceshandler = contextdata[1]
+
     React.useEffect(() => {
         fetch(
             "https://fakestoreapi.com/products/")
@@ -127,15 +131,16 @@ export default function Invoice() {
     };
     const handleKeyDown = (event) => {
         tempInvoice = [...tempInvoice,
-            {
+        {
             title: selectedIdx.title,
             qty: quant,
             rate: selectedIdx.price,
-            total: quant*selectedIdx.price
-            }
+            total: quant * selectedIdx.price
+        }
         ]
-            setInvoice(tempInvoice)
-            console.log(invoice)
+        setInvoice(tempInvoice)
+        console.log(invoice)
+        invoiceshandler(tempInvoice)
     }
     return (
         <div style={{
@@ -217,77 +222,78 @@ export default function Invoice() {
                                 <StyledTableCell align="right">Line total</StyledTableCell>
                                 <StyledTableCell align="right">Action</StyledTableCell>
                             </TableRow>
-                        
-                            </TableHead>
-                            <TableBody>{invoice.map((row) => (
-                                <StyledTableRow key={row.title}>
-                                    <StyledTableCell component="th" scope="row">
+
+                        </TableHead>
+                        <TableBody>{invoice.map((row) => (row.qty != 0 && row.rate != 0) && (
+                            <StyledTableRow key={row.title}>
+                                <StyledTableCell component="th" scope="row">
                                     {row.title}
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">${row.rate}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.qty}</StyledTableCell>
-                                    <StyledTableCell align="right">${row.total}</StyledTableCell>
-                                    <StyledTableCell align="right"><DeleteIcon></DeleteIcon></StyledTableCell>
-                                </StyledTableRow>
-                                ))}
-                                <StyledTableRow>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">${row.rate}</StyledTableCell>
+                                <StyledTableCell align="right">{row.qty}</StyledTableCell>
+                                <StyledTableCell align="right">${row.total}</StyledTableCell>
+                                <StyledTableCell align="right"><DeleteIcon></DeleteIcon></StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                            <StyledTableRow>
                                 <StyledTableCell>
-                                        <Select
-                                            labelId="demo-multiple-name-label"
-                                            id="demo-multiple-name"
-                                            value={selectedItem}
-                                            onChange={handleChange}
-                                            input={<OutlinedInput label="Name" />}
-                                            MenuProps={MenuProps}
-                                        >
-                                            {data.map((name) => {
-                                                nametoid[name.id] = name
-                                                return(
+                                    <Select
+                                        labelId="demo-multiple-name-label"
+                                        id="demo-multiple-name"
+                                        value={selectedItem}
+                                        onChange={handleChange}
+                                        input={<OutlinedInput label="Name" />}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {data.map((name) => {
+                                            nametoid[name.id] = name
+                                            return (
+                                                (
                                                     <MenuItem
                                                         key={name.id}
                                                         value={name.id}
                                                     >
                                                         {name.title}
-                                                    </MenuItem>
-                                                )
-                                            }
+                                                    </MenuItem>)
+                                            )
+                                        }
 
-          )}
-                                                </Select>
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">{selectedIdx.price}</StyledTableCell>
-                                    <StyledTableCell align="right">
+                                        )}
+                                    </Select>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">{selectedIdx.price}</StyledTableCell>
+                                <StyledTableCell align="right">
                                     <TextField
                                         id="standard-number"
                                         label="Number"
                                         type="number"
-                                        value = {quant}
-                                        onChange={(e)=>{
-                                            if(e.target.value>=0){
+                                        value={quant}
+                                        onChange={(e) => {
+                                            if (e.target.value >= 0) {
                                                 setQuant(e.target.value)
-                                            }else{
-                                            setQuant(0)
+                                            } else {
+                                                setQuant(0)
                                             }
                                         }}
                                         InputLabelProps={{
-                                        shrink: true,
+                                            shrink: true,
                                         }}
                                         variant="standard"
                                     />
-                                    </StyledTableCell>
-                                    <StyledTableCell align="right">${selectedIdx.price*quant}</StyledTableCell>
-                                    
-                                    <StyledTableCell align="right">
-                                    <IconButton onClick={handleKeyDown} aria-label="done" size="small" disabled={quant<=0}>
+                                </StyledTableCell>
+                                <StyledTableCell align="right">${selectedIdx.price * quant}</StyledTableCell>
+
+                                <StyledTableCell align="right">
+                                    <IconButton onClick={handleKeyDown} aria-label="done" size="small" disabled={quant <= 0}>
                                         <DoneIcon fontSize="inherit" />
                                     </IconButton>
                                     {/* <IconButton aria-label="delete" size="small">
                                         <DeleteIcon fontSize="inherit" />
                                     </IconButton> */}
-                                    </StyledTableCell>
-                                    </StyledTableRow >
-                        
-                            </TableBody>
+                                </StyledTableCell>
+                            </StyledTableRow >
+
+                        </TableBody>
                     </Table>
                 </TableContainer>
 

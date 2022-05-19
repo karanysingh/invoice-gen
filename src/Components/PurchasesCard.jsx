@@ -16,7 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Invoice from '../Components/Invoice'
 import Button from '@mui/material/Button';
-
+import { InvoiceContext } from '../App';
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
@@ -38,19 +38,22 @@ function createData(
     rate: number,
     qty: number,
     total: number,
-  ) {
+) {
     return { title, rate, qty, total };
-  }
-  
-  const invoices = [
-    createData('Ice cream sandwich', 2237, 9,  4100),
-    createData('Eclair', 2620, 16,  6000),
-    createData('Cupcake', 1305, 3,  4300),
-    createData('Gingerbread', 2356, 16, 3900),
-  ];
+}
 
+//   const invoices = [
+//     createData('Ice cream sandwich', 2237, 9,  4100),
+//     createData('Eclair', 2620, 16,  6000),
+//     createData('Cupcake', 1305, 3,  4300),
+//     createData('Gingerbread', 2356, 16, 3900),
+//   ];
+var invs = []
 export default function PurchasesCard() {
     const [expanded, setExpanded] = React.useState(false);
+    const [invoices, setInvoices] = React.useState([])
+    // const [name,setName] = React.useState("unnamed")
+    var contextdata = React.useContext(InvoiceContext)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -65,7 +68,7 @@ export default function PurchasesCard() {
             }}>
 
             <CardContent style={{
-                padding: "4%", 
+                padding: "4%",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between"
@@ -75,22 +78,22 @@ export default function PurchasesCard() {
                     flexDirection: "column",
                     justifyContent: "space-between"
                 }}>
-                    <Typography style={{ fontWeight: 700 }} variant="h4">Invoice 1</Typography>
+                    <Typography style={{ fontWeight: 700 }} variant="h4">{contextdata[3][0]}</Typography>
                     <Typography style={{ fontWeight: 500 }} variant="h6">05/04/2022</Typography>
                 </div>
-                <Button 
+                <Button
                     onClick={handleExpandClick}
-                    style={{ 
-                    fontWeight: 700, 
-                    color:"#7161C5" ,
-                    borderRadius:"100px",
-                    textTransform:'none',
-                    padding:10,
-                    '&:hover':{
-                        backgroundColor:"#F2EFFF"
-                    }
+                    style={{
+                        fontWeight: 700,
+                        color: "#7161C5",
+                        borderRadius: "100px",
+                        textTransform: 'none',
+                        padding: 10,
+                        '&:hover': {
+                            backgroundColor: "#F2EFFF"
+                        }
                     }}>
-                    
+
                     View Invoice
                     <ExpandMore
                         expand={expanded}
@@ -111,7 +114,7 @@ export default function PurchasesCard() {
             <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
 
-                    <Invoice data={invoices}></Invoice>
+                    <Invoice data={contextdata[2]}></Invoice>
 
                 </CardContent>
             </Collapse>

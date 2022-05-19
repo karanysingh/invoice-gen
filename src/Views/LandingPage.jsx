@@ -13,6 +13,7 @@ import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
+import { InvoiceContext } from '../App';
 
 import Button from '@mui/material/Button';
 
@@ -26,6 +27,9 @@ const mainTheme = createTheme({
 
 export default function LandingPage() {
     const [name, setName] = React.useState("");
+    var contextdata = React.useContext(InvoiceContext)
+    const changeInvoiceName = contextdata[4]
+    const newname = contextdata[2]
     return (
         <>
             <Grid
@@ -38,11 +42,11 @@ export default function LandingPage() {
                     boxShadow: "0px 3.57967px 37.5866px rgba(189, 189, 189, 0.25)",
                 }}
             >
-                
+
                 <Grid item xs={6}>
                     <ThemeProvider theme={mainTheme}>
-               
-                    <img src={"./logo.png"} style={{marginTop:50,paddingBottom:50}} />
+
+                        <img src={"./logo.png"} style={{ marginTop: 50, paddingBottom: 50 }} />
 
                         <Typography variant="h2" style={{
                             fontWeight: 700,
@@ -60,23 +64,27 @@ export default function LandingPage() {
                                 color: "#2B2B2B",
                                 border: "0.8px solid #2B2B2B"
                             }}
-                            id="outlined-basic" label="Enter Name"  onChange={(e)=>{
+                            id="outlined-basic" label="Enter Name" onChange={(e) => {
                                 setName(e.target.value)
                             }} />
-                        <Button disableRipple component={Link} style={{
-                            marginLeft: 12,
-                            height: "50px",
-                            marginTop: 40,
-                            width: 300,
-                            backgroundColor:"#7161C5",
-                            borderRadius: "15px",
-                            '&:hover':{
-                                backgroundColor:"#4F4099 !important"
-                            },
-                            '&:active':{
-                                backgroundColor:"#3B3077 !important"
+                        <Button disableRipple component={Link}
+                            onClick={() => {
+                                changeInvoiceName([newname[0], name])
                             }
-                        }} to="/generate" variant="contained">Generate Invoice</Button>
+                            } style={{
+                                marginLeft: 12,
+                                height: "50px",
+                                marginTop: 40,
+                                width: 300,
+                                backgroundColor: "#7161C5",
+                                borderRadius: "15px",
+                                '&:hover': {
+                                    backgroundColor: "#4F4099 !important"
+                                },
+                                '&:active': {
+                                    backgroundColor: "#3B3077 !important"
+                                }
+                            }} to="/generate" variant="contained">Generate Invoice</Button>
                     </ThemeProvider>
                 </Grid>
                 <Grid item xs={4}>
@@ -89,20 +97,20 @@ export default function LandingPage() {
                 justifyContent="center"
                 alignItems="center"
             >
-            <Grid item xs={6} style={{
+                <Grid item xs={6} style={{
                 }}>
-                <Typography 
-                style={{
-                    marginTop: 60,
-                    paddingBottom:30,
-                    fontWeight:500,
-                }}
-                variant="h4">
-                    Saved Invoices
-                </Typography>
-               <PurchasesCard></PurchasesCard>
-            </Grid>
-            <Grid item xs={4}>
+                    <Typography
+                        style={{
+                            marginTop: 60,
+                            paddingBottom: 30,
+                            fontWeight: 500,
+                        }}
+                        variant="h4">
+                        Saved Invoices
+                    </Typography>
+                    <PurchasesCard></PurchasesCard>
+                </Grid>
+                <Grid item xs={4}>
                 </Grid>
             </Grid>
         </>

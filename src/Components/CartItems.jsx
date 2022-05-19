@@ -68,7 +68,7 @@ export default function CartItems(props){
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row) => (
+            {data.map((row) => (row.qty!=0 && row.rate!=0)&&(
               <StyledTableRow key={row.title}>
                 <StyledTableCell component="th" scope="row">
                   {row.title}

@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import MakeInvoice from '../Components/MakeInvoice';
 import Invoice from '../Components/Invoice';
+import { InvoiceContext } from '../App';
 
 
 const CustomButton = styled(Button)({
@@ -22,7 +23,7 @@ const CustomButton = styled(Button)({
     backgroundColor: '#EDEAFF',
     borderColor: '#0063cc',
 });
-function createData(
+function CreateData(
     title: string,
     rate: number,
     qty: number,
@@ -30,21 +31,24 @@ function createData(
 ) {
     return { title, rate, qty, total };
 }
-
-const rows = [
-    createData('Frozen yoghurt', 2159, 6, 4000),
-    createData('Ice cream sandwich', 2237, 9, 4100),
-    createData('Eclair', 2620, 16, 6000),
-    createData('Cupcake', 1305, 3, 4300),
-    createData('Gingerbread', 2356, 16, 3900),
-];
 export default function GenerateInvoice() {
-    const [value, setValue] = React.useState(2);
-    const [invoiceName, setInvoiceName] = React.useState("Invoice1")
+    const [value, setValue] = React.useState(1);
+    // const [invoiceName, setInvoiceName] = React.useState("Invoice1")
 
-    const handleChange = (event, newValue) => {
+    var contextdata = React.useContext(InvoiceContext)
+    const invoices = contextdata[0]
+    const oldinvoices = contextdata[2]
+    const invoiceName = contextdata[3][1]
+
+    const HandleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const HandleSaveInvoice = () => {
+        console.log(JSON.stringify({ ...invoices, name: invoiceName, subtotal: 100 }))
+        window.localStorage.removeItem('invhistory');
+        window.localStorage.setItem("invhistory", JSON.stringify({ ...invoices, name: invoiceName, subtotal: 100 }));
+    }
 
     return (
 
@@ -83,7 +87,7 @@ export default function GenerateInvoice() {
                         <EditIcon /></Typography>
                 </div>
                 <div sx={{ display: 'flex', flex: '1' }}>
-                    <Tabs value={value} onChange={handleChange} >
+                    <Tabs value={value} onChange={HandleChange} >
 
                         <Tab icon={<VisibilityIcon />} iconPosition="start" label="Preview" />
                         <Tab icon={<EditIcon />} iconPosition="start" label="Edit" />
@@ -92,7 +96,9 @@ export default function GenerateInvoice() {
                 </div>
                 <div sx={{ paddingRight: 20 }}>
                     <CustomButton>Export as PDF</CustomButton>
-                    <CustomButton>Save Invoice</CustomButton>
+                    <CustomButton
+                        onClick={HandleSaveInvoice}
+                    >Save Invoice</CustomButton>
                 </div>
             </Box>
             <Box>
@@ -102,7 +108,7 @@ export default function GenerateInvoice() {
                     }
 
                     {
-                        (value == 0) && (<Invoice data={rows} />)
+                        (value == 0) && (<Invoice data={invoices} />)
                     }
                 </div>
             </Box>
