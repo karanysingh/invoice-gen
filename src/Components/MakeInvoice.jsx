@@ -20,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DoneIcon from '@mui/icons-material/Done';
 import IconButton from '@mui/material/IconButton';
 import { InvoiceContext } from "../App";
+import Backdrop from '@mui/material/Backdrop';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -88,7 +89,9 @@ export default function MakeInvoice(props) {
     const [data, setData] = React.useState([]);
     const [selectedIdx, setSelectedIdx] = React.useState({ id: 2, price: 0, title: "notselected" });
     const [quant, setQuant] = React.useState(0)
-    const [total, setTotal] = React.useState(0)
+    const [total, setTotal] = React.useState(0)  
+    const [open, setOpen] = React.useState(false);
+
     // const [invoice, setInvoice] = React.useState([{ title: "null", qty: 0, rate: 0, total: 0 },"karan",123])
     var sum = props.sum
     var setsum = props.setsum 
@@ -107,6 +110,7 @@ export default function MakeInvoice(props) {
             .then((json) => {
                 console.log(json)
                 setData(json)
+                setOpen(true)
   
             })}
             
@@ -155,7 +159,12 @@ export default function MakeInvoice(props) {
     }
 
 
-
+    const handleClose = () => {
+        setOpen(false);
+      };
+      const handleToggle = () => {
+        setOpen(!open);
+      };
 
     return (
         <div style={{
@@ -163,6 +172,11 @@ export default function MakeInvoice(props) {
             borderRadius: "8px",
             boxShadow: "0px 3.98495px 9.96236px rgba(95, 95, 94, 0.25)"
         }}>
+        <Backdrop
+            sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={open}
+            onClick={handleClose}
+          ></Backdrop>
             <div style={{
                 width: "100%",
                 height: 10,
@@ -279,8 +293,8 @@ export default function MakeInvoice(props) {
                                 <StyledTableCell>
                                     {data!==[]&&(
                                     <Select
-                                        labelId="demo-multiple-name-label"
-                                        id="demo-multiple-name"
+                                        style={{width:"100%"}}
+                                        label="Select"
                                         value={selectedItem}
                                         onChange={handleChange}
                                         input={<OutlinedInput label="Name" />}
@@ -341,6 +355,7 @@ export default function MakeInvoice(props) {
 
 
             </div>
+            
         </div >
     )
 }
