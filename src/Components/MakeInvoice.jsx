@@ -92,6 +92,7 @@ export default function MakeInvoice(props) {
     const [total, setTotal] = React.useState(0)  
     const [open, setOpen] = React.useState(false);
 
+
     // const [invoice, setInvoice] = React.useState([{ title: "null", qty: 0, rate: 0, total: 0 },"karan",123])
     var sum = props.sum
     var setsum = props.setsum 
@@ -157,7 +158,7 @@ export default function MakeInvoice(props) {
                 console.log(temp)
                 setlocalInvoice(temp)
     }
-
+  
 
     const handleClose = () => {
         setOpen(false);
@@ -172,6 +173,7 @@ export default function MakeInvoice(props) {
             borderRadius: "8px",
             boxShadow: "0px 3.98495px 9.96236px rgba(95, 95, 94, 0.25)"
         }}>
+
         <Backdrop
             sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={open}

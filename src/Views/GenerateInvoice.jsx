@@ -11,10 +11,15 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import MakeInvoice from '../Components/MakeInvoice';
 import Invoice from '../Components/Invoice';
 import { InvoiceContext } from '../App';
-import {Link} from 'react-router-dom'
+import {Link, Redirect } from 'react-router-dom'
 import IconButton from '@mui/material/IconButton';
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+
 
 const CustomButton = styled(Button)({
     boxShadow: 'none',
@@ -25,7 +30,7 @@ const CustomButton = styled(Button)({
     lineHeight: 1.5,
     backgroundColor: '#EDEAFF',
     borderColor: '#0063cc',
-});
+})
 function CreateData(
     title: string,
     rate: number,
@@ -40,6 +45,12 @@ export default function GenerateInvoice(props) {
     const invoices = contextdata[0]
     const [sum,setsum] = React.useState(0)
     const [newname,setnewname] = React.useState("unnamed")
+    const [saved, setSaved] = React.useState(false);
+
+    const handleCloseDialog = () => {
+        setSaved(false);
+        window.location.href = "/"
+      };
     // const sum
     React.useEffect(()=>{
         setnewname(invoices.name)
@@ -52,6 +63,10 @@ export default function GenerateInvoice(props) {
         console.log(JSON.stringify({ ...invoices, name: newname, subtotal: 100 }))
         window.localStorage.removeItem('invhistory');
         window.localStorage.setItem("invhistory", JSON.stringify({ ...invoices, name: newname, total: sum }));
+        if(window.localStorage.getItem("invhistory")){
+            setSaved(true)
+        }
+
     }
     
     const exportPDF = () => {
@@ -91,7 +106,26 @@ export default function GenerateInvoice(props) {
             justifyContent="center"
             alignItems="center"
             flexDirection="column"
-        > <Grid
+        > 
+        
+        <Dialog
+        open={saved}
+        onClose={handleCloseDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Your Invoice is saved
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Okay
+          </Button>
+        </DialogActions>
+      </Dialog>
+        
+        <Grid
             container
             justifyContent="flex-start"
             alignItems="center"
